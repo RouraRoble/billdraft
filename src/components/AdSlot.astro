@@ -1,0 +1,39 @@
+---
+/**
+ * Monetization slot. Renders nothing unless PUBLIC_ADSENSE_CLIENT is set at build time.
+ * Keeps layout stable (min-height) to protect CLS when ads are enabled.
+ */
+import { site } from '../site.config';
+interface Props {
+  slot?: string;
+  format?: 'auto' | 'rectangle' | 'horizontal';
+  minHeight?: number;
+}
+const { slot = '', format = 'auto', minHeight = 0 } = Astro.props;
+const enabled = Boolean(site.adsenseClient && slot);
+---
+
+{
+  enabled && (
+    <aside class="ad-slot" aria-label="Advertisement" style={`min-height:${minHeight}px`}>
+      <ins
+        class="adsbygoogle"
+        style="display:block"
+        data-ad-client={site.adsenseClient}
+        data-ad-slot={slot}
+        data-ad-format={format}
+        data-full-width-responsive="true"
+      />
+    </aside>
+  )
+}
+
+<script>
+  // Request ads for every slot on the page once the loader is present (no-op when ads are disabled).
+  const slots = document.querySelectorAll('ins.adsbygoogle');
+  if (slots.length) {
+    const w = window as any;
+    w.adsbygoogle = w.adsbygoogle || [];
+    slots.forEach(() => w.adsbygoogle.push({}));
+  }
+</script>

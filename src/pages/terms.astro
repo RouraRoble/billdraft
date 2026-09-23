@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { site } from '../site.config';
+const title = 'Terms of Use';
+const description = `Terms of use for ${site.name}: free service provided as-is, no warranty, acceptable use and liability limits.`;
+---
+
+<Base title={title} description={description}>
+  <article class="container container--narrow section prose">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Terms', url: '/terms/' }]} />
+    <h1>{title}</h1>
+    <p class="muted small">Last updated: {site.launched}</p>
+    <h2>1. The service</h2>
+    <p>{site.name} is a free online tool provided "as is" and "as available". We may change or discontinue any part of it at any time.</p>
+    <h2>2. No professional advice</h2>
+    <p>
+      Results are provided for general information only and are not financial, legal, medical, tax or other professional
+      advice. Verify important figures with a qualified professional or official source before relying on them.
+    </p>
+    <h2>3. Acceptable use</h2>
+    <p>You agree not to disrupt the service, attempt to gain unauthorised access, scrape at abusive rates, or use it for unlawful purposes.</p>
+    <h2>4. Intellectual property</h2>
+    <p>The site's code, design and content are owned by their respective authors. You keep all rights to content you create with the tool.</p>
+    <h2>5. Limitation of liability</h2>
+    <p>
+      To the maximum extent permitted by law, we are not liable for any loss or damage arising from use of, or inability to
+      use, the service, including losses caused by inaccurate results.
+    </p>
+    <h2>6. Third-party links</h2>
+    <p>Links to third-party sites, including affiliate links, are provided for convenience. We are not responsible for their content or practices.</p>
+    <h2>7. Governing law</h2>
+    <p>These terms are governed by the laws of Spain, without prejudice to mandatory consumer protections in your country of residence.</p>
+    <h2>8. Contact</h2>
+    <p>Questions about these terms: <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a>.</p>
+  </article>
+</Base>

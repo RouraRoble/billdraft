@@ -1,0 +1,104 @@
+---
+import '../styles/tokens.css';
+import '../styles/base.css';
+import { site } from '../site.config';
+import { absoluteUrl, withBase } from '../lib/url';
+import { ldJson, organizationLd, websiteLd, type JsonLd } from '../lib/seo';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import Analytics from '../components/Analytics.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  image?: string;
+  imageAlt?: string;
+  jsonLd?: JsonLd | JsonLd[];
+  noindex?: boolean;
+  type?: 'website' | 'article';
+  bodyClass?: string;
+  lang?: string;
+  /** Set false on pages that render their own header/footer. */
+  chrome?: boolean;
+}
+
+const {
+  title,
+  description,
+  image,
+  imageAlt,
+  jsonLd = [],
+  noindex = false,
+  type = 'website',
+  bodyClass = '',
+  lang = site.locale,
+  chrome = true,
+} = Astro.props;
+
+const canonical = Astro.props.canonical ?? absoluteUrl(Astro.url.pathname);
+const ogImage = absoluteUrl(image ?? '/og/default.png');
+const fullTitle = title.includes(site.name) ? title : `${title} · ${site.name}`;
+const extra = Array.isArray(jsonLd) ? jsonLd : [jsonLd];
+const isHome = new URL(canonical).pathname === new URL(absoluteUrl('/')).pathname;
+const ld: JsonLd[] = isHome ? [websiteLd(), organizationLd(), ...extra] : extra;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="theme-color" content={site.themeColor} />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
+    <link rel="manifest" href={withBase('/manifest.webmanifest')} />
+    <link rel="sitemap" type="application/xml" href={withBase('/sitemap-index.xml')} />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content={site.ogLocale} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={imageAlt ?? fullTitle} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    {site.social.twitter && <meta name="twitter:site" content={site.social.twitter} />}
+    {ld.map((o) => <script type="application/ld+json" set:html={ldJson(o)} />)}
+    {site.adsenseClient && <script async src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${site.adsenseClient}`} crossorigin="anonymous" />}
+    <slot name="head" />
+  </head>
+  <body class={bodyClass}>
+    <a class="skip-link" href="#main">Skip to content</a>
+    {
+      chrome && (
+        <slot name="header">
+          <SiteHeader
+            links={[
+              { href: '/', label: 'Invoice' },
+              { href: '/quote/', label: 'Quote' },
+              { href: '/receipt/', label: 'Receipt' },
+              { href: '/invoice-template/', label: 'Templates' },
+              { href: '/guide/', label: 'Guides' },
+            ]}
+          />
+        </slot>
+      )
+    }
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    {chrome && <slot name="footer"><SiteFooter /></slot>}
+    <Analytics />
+  </body>
+</html>

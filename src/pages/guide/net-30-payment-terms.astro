@@ -1,0 +1,99 @@
+---
+import Base from '../../layouts/Base.astro';
+import Faq from '../../components/Faq.astro';
+import Share from '../../components/Share.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import MoreTools from '../../components/MoreTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { site } from '../../site.config';
+import { articleLd } from '../../lib/seo';
+import { absoluteUrl, withBase } from '../../lib/url';
+import { dueDateFor, formatDate, termsLabel, TERMS, type Terms } from '../../lib/invoice';
+
+const title = 'What "Net 30" Payment Terms Mean';
+const description = '"Net 30" means payment is due 30 calendar days after the invoice date. A worked example for each common term, and when to choose a shorter one.';
+
+const exampleIssue = site.updated; // real, current date — not invented
+const rows = TERMS.filter((t): t is Exclude<Terms, 'custom'> => t !== 'custom').map((t) => ({
+  term: t,
+  label: termsLabel(t),
+  due: dueDateFor(exampleIssue, t),
+}));
+
+const faqs = [
+  { q: 'Does "Net 30" mean 30 business days or 30 calendar days?', a: 'Calendar days, unless your contract says otherwise — "Net 30" by convention counts every day, including weekends, from the invoice date.' },
+  { q: 'What is a reasonable payment term for a new client?', a: 'Shorter terms (Due on receipt, Net 7 or Net 14) reduce your cash-flow risk with clients you don’t have payment history with. Net 30+ is more common with established B2B relationships or larger companies with fixed payment-run schedules.' },
+  { q: 'Can I charge interest if a client pays late?', a: 'Depends on your jurisdiction and contract — some countries set a statutory late-payment interest rate for commercial debts. Check your local commercial/consumer law, and state your own late-payment policy on the invoice if you intend to rely on it.' },
+];
+---
+
+<Base title={title} description={description} type="article" jsonLd={articleLd({ headline: title, description, url: '/guide/net-30-payment-terms/', datePublished: site.launched, dateModified: site.updated })}>
+  <article class="container container--narrow section prose">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Guides', url: '/guide/' }, { name: 'Net 30 payment terms', url: '/guide/net-30-payment-terms/' }]} />
+    <p class="eyebrow">Guide</p>
+    <h1>What "Net 30" payment terms mean</h1>
+    <p class="muted small">Last updated: {site.updated}</p>
+    <p class="lead">
+      <strong>"Net 30" means the full amount is due 30 calendar days after the invoice's issue date.</strong> The same
+      "Net N" pattern applies to Net 7, Net 14 and Net 60 — only the number of days changes. Below is the due date each
+      term produces for an invoice issued today, {formatDate(exampleIssue)}.
+    </p>
+
+    <h2>Due date by term (issued {formatDate(exampleIssue)})</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Term</th><th scope="col">Meaning</th><th scope="col">Due date</th></tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr>
+              <td><code>{r.label}</code></td>
+              <td>{r.term === 'receipt' ? 'Payable immediately, no grace period.' : `${r.term.replace('net', '')} calendar days after the issue date.`}</td>
+              <td>{formatDate(r.due) || '—'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p>
+      The <a href={withBase('/')}>invoice generator</a> computes this automatically: pick a term and the due date fills in;
+      pick "Custom date" to set an exact date that doesn't follow the Net-N pattern.
+    </p>
+
+    <h2>Choosing a term</h2>
+    <ul>
+      <li><strong>Due on receipt / Net 7</strong> — fastest cash flow; common for trades, small jobs and new clients.</li>
+      <li><strong>Net 14</strong> — a middle ground used by many freelancers and agencies.</li>
+      <li><strong>Net 30</strong> — the most common B2B default, especially with larger companies' fixed payment runs.</li>
+      <li><strong>Net 60</strong> — longer terms sometimes requested by large enterprise or government buyers; weigh the cash-flow impact before agreeing.</li>
+    </ul>
+
+    <h2>Related</h2>
+    <ul>
+      <li><a href={withBase('/guide/how-to-write-an-invoice/')}>How to write an invoice</a> — the full required-fields checklist</li>
+      <li><a href={withBase('/guide/invoice-numbering/')}>Invoice numbering</a> — formats and worked examples</li>
+      <li><a href={withBase('/invoice-template/hourly/')}>Hourly invoice template</a></li>
+      <li><a href={withBase('/invoice-template/')}>All invoice templates</a></li>
+    </ul>
+
+    <Share url={absoluteUrl('/guide/net-30-payment-terms/')} text="What Net 30 payment terms mean, with a due-date example" />
+  </article>
+
+  <AdSlot slot="guide-mid" minHeight={90} />
+
+  <section class="container container--narrow section">
+    <Faq items={faqs} />
+  </section>
+
+  <section class="container">
+    <MoreTools />
+  </section>
+</Base>
+
+<style>
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--fg-muted);
+  }
+</style>

@@ -1,0 +1,102 @@
+---
+import Base from '../../layouts/Base.astro';
+import Faq from '../../components/Faq.astro';
+import Share from '../../components/Share.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import MoreTools from '../../components/MoreTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { site } from '../../site.config';
+import { articleLd } from '../../lib/seo';
+import { absoluteUrl, withBase } from '../../lib/url';
+import { incrementNumber } from '../../lib/invoice';
+
+const title = 'Invoice Numbering: Rules, Formats & Examples';
+const description = 'Invoice numbers must be unique and sequential with no gaps. Three formats explained with worked examples, and how BillDraft auto-increments per document type.';
+
+const schemes = [
+  { name: 'Simple sequential', example: 'INV-0001 → INV-0002 → INV-0003', use: 'Most freelancers and small businesses. Pad with zeros (e.g. 4 digits) so numbers sort correctly as text.' },
+  { name: 'Year-prefixed', example: '2026-001 → 2026-002 → 2027-001', use: 'Restart the counter each calendar year; keeps numbers short while staying unique when the year is included.' },
+  { name: 'Client-prefixed', example: 'ACME-0007 → ACME-0008', use: 'Useful when you want a quick visual link between an invoice and a specific client, alongside your own master sequence.' },
+];
+
+const examples: [string, string][] = [
+  ['INV-0007', incrementNumber('INV-0007')],
+  ['2026-099', incrementNumber('2026-099')],
+  ['ACME-9', incrementNumber('ACME-9')],
+];
+
+const faqs = [
+  { q: 'Can I restart my invoice numbers each year?', a: 'Yes, as long as the full number (including the year) never repeats — e.g. 2026-001, 2026-002, then 2027-001. Avoid reusing a plain "001" every year with nothing to distinguish the years.' },
+  { q: 'What happens if I skip a number by mistake?', a: 'Do not delete or renumber past invoices to close the gap. Most tax authorities expect an explainable, mostly-sequential record; if you voided a draft, note it was cancelled rather than reusing its number.' },
+  { q: 'Does BillDraft number invoices automatically?', a: 'Yes — each document type (invoice, quote, receipt, credit note) keeps its own counter in your browser and suggests the next number when you start a new one; you can always overwrite it.' },
+];
+---
+
+<Base title={title} description={description} type="article" jsonLd={articleLd({ headline: title, description, url: '/guide/invoice-numbering/', datePublished: site.launched, dateModified: site.updated })}>
+  <article class="container container--narrow section prose">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Guides', url: '/guide/' }, { name: 'Invoice numbering', url: '/guide/invoice-numbering/' }]} />
+    <p class="eyebrow">Guide</p>
+    <h1>Invoice numbering: rules, formats &amp; examples</h1>
+    <p class="muted small">Last updated: {site.updated}</p>
+    <p class="lead">
+      The rule is simple: every invoice number must be unique, and the sequence should have no unexplained gaps. Beyond
+      that, the exact format is up to you. Three common schemes, with worked examples, are below.
+    </p>
+
+    <h2>Three numbering schemes</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Scheme</th><th scope="col">Example sequence</th><th scope="col">Best for</th></tr>
+        </thead>
+        <tbody>
+          {schemes.map((s) => <tr><td><strong>{s.name}</strong></td><td><code>{s.example}</code></td><td>{s.use}</td></tr>)}
+        </tbody>
+      </table>
+    </div>
+
+    <h2>How the "next number" is calculated</h2>
+    <p>
+      BillDraft increments the trailing digit run of your last number, keeping any zero-padding, so the format you chose
+      stays consistent:
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Current number</th><th scope="col">Next number</th></tr>
+        </thead>
+        <tbody>
+          {examples.map(([a, b]) => <tr><td><code>{a}</code></td><td><code>{b}</code></td></tr>)}
+        </tbody>
+      </table>
+    </div>
+    <p>Try it yourself in the <a href={withBase('/')}>invoice generator</a> — the number field suggests the next value in sequence for whichever document type you're creating.</p>
+
+    <h2>Related</h2>
+    <ul>
+      <li><a href={withBase('/guide/how-to-write-an-invoice/')}>How to write an invoice</a> — the other 7 required fields</li>
+      <li><a href={withBase('/guide/net-30-payment-terms/')}>What "Net 30" means</a> — setting the due date</li>
+      <li><a href={withBase('/invoice-template/freelance/')}>Freelance invoice template</a></li>
+      <li><a href={withBase('/invoice-template/')}>All invoice templates</a></li>
+    </ul>
+
+    <Share url={absoluteUrl('/guide/invoice-numbering/')} text="Invoice numbering: rules, formats and examples" />
+  </article>
+
+  <AdSlot slot="guide-mid" minHeight={90} />
+
+  <section class="container container--narrow section">
+    <Faq items={faqs} />
+  </section>
+
+  <section class="container">
+    <MoreTools />
+  </section>
+</Base>
+
+<style>
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--fg-muted);
+  }
+</style>

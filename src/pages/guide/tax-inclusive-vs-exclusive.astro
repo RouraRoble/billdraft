@@ -1,0 +1,128 @@
+---
+import Base from '../../layouts/Base.astro';
+import Faq from '../../components/Faq.astro';
+import Share from '../../components/Share.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import MoreTools from '../../components/MoreTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { site } from '../../site.config';
+import { articleLd } from '../../lib/seo';
+import { absoluteUrl, withBase } from '../../lib/url';
+import { computeTotals, defaultDoc, formatMoney, newItem } from '../../lib/invoice';
+
+const title = 'Tax-Inclusive vs Tax-Exclusive Pricing';
+const description =
+  'Tax-exclusive adds tax on top of your price; tax-inclusive backs it out of a price that already includes it. Worked $100 examples at 4 tax rates.';
+
+// Real numbers from BillDraft's own totals engine (src/lib/invoice.ts), not invented: for each
+// rate, build a one-line $100 document once in exclusive mode and once in inclusive mode.
+const rates = [5, 10, 15, 20];
+const rows = rates.map((rate) => {
+  const base = { ...defaultDoc('invoice'), currency: 'USD', locale: 'en-US', items: [newItem({ description: 'Service', qty: 1, unitPrice: 100 })] };
+  const exclusive = computeTotals({ ...base, taxMode: 'exclusive', items: [newItem({ description: 'Service', qty: 1, unitPrice: 100, taxRate: rate })] });
+  const inclusive = computeTotals({ ...base, taxMode: 'inclusive', items: [newItem({ description: 'Service', qty: 1, unitPrice: 100, taxRate: rate })] });
+  return { rate, exclusive, inclusive };
+});
+
+const faqs = [
+  {
+    q: 'Which mode should I use on my invoice?',
+    a: 'Follow what your price actually means to the client. If your quoted/listed price does not yet include tax (common in the US, and in most B2B quotes), use tax-exclusive. If your price is the final, all-in amount the client pays (common in EU/UK consumer-facing and retail pricing), use tax-inclusive.',
+  },
+  {
+    q: 'Does the total change between the two modes for the same rate?',
+    a: `Yes — for the same entered unit price, the two modes produce different totals, because they treat that number differently. Enter $100.00 at 20% <strong>exclusive</strong> and tax is added on top: $100.00 taxable + $20.00 tax = <strong>$120.00</strong> total. Enter the same $100.00 at 20% <strong>inclusive</strong> and the price is treated as already containing tax, so nothing is added: $83.33 taxable + $16.67 tax = <strong>$100.00</strong> total. The amounts due only coincide if you re-enter the number itself for the mode you're in — typing $120.00 in inclusive mode at 20% gives $100.00 taxable + $20.00 tax = $120.00 total, matching the exclusive example above.`,
+  },
+  {
+    q: 'How is the tax removed from a tax-inclusive price?',
+    a: `The taxable amount is the entered price divided by (1 + rate/100), and the tax is the entered price minus that. For example, at 20% inclusive a $120.00 price splits into $100.00 taxable and $20.00 tax — not $120 × 20% = $24, which would double-count the tax already inside the price.`,
+  },
+];
+---
+
+<Base title={title} description={description} type="article" jsonLd={articleLd({ headline: title, description, url: '/guide/tax-inclusive-vs-exclusive/', datePublished: site.launched, dateModified: site.updated })}>
+  <article class="container container--narrow section prose">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Guides', url: '/guide/' }, { name: 'Tax-inclusive vs exclusive', url: '/guide/tax-inclusive-vs-exclusive/' }]} />
+    <p class="eyebrow">Guide</p>
+    <h1>Tax-inclusive vs tax-exclusive pricing</h1>
+    <p class="muted small">Last updated: {site.updated}</p>
+    <p class="lead">
+      <strong>Tax-exclusive</strong> adds tax on top of the price you enter. <strong>Tax-inclusive</strong> treats the
+      price you enter as the final amount and works the tax back out of it. Both give the same amount due for the same
+      final price — they only differ in which number goes in the "Unit price" field and how the tax line is shown.
+    </p>
+
+    <h2>Worked example: a $100 line item</h2>
+    <p>Computed with {site.name}'s own totals engine (the same code the editor uses), not rounded by hand.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Rate</th>
+            <th scope="col">Exclusive: $100 + tax</th>
+            <th scope="col">Inclusive: $100 all-in</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr>
+              <td><code>{r.rate}%</code></td>
+              <td>
+                {formatMoney(r.exclusive.lines[0].taxable, 'USD')} taxable + {formatMoney(r.exclusive.lines[0].tax, 'USD')} tax ={' '}
+                <strong>{formatMoney(r.exclusive.total, 'USD')}</strong>
+              </td>
+              <td>
+                {formatMoney(r.inclusive.lines[0].taxable, 'USD')} taxable + {formatMoney(r.inclusive.lines[0].tax, 'USD')} tax ={' '}
+                <strong>{formatMoney(r.inclusive.total, 'USD')}</strong>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p>
+      Notice the exclusive column always totals more than $100 (tax is added), while the inclusive column always totals
+      exactly $100 (tax is extracted from it) — pick the mode that matches what your $100 price was meant to mean.
+      Rounding follows the same rule as everywhere else in {site.name}: see the{' '}
+      <a href={withBase('/about/')}>rounding methodology</a>.
+    </p>
+
+    <h2>Which mode do the templates use?</h2>
+    <p>
+      Every {site.name} template — including{' '}
+      <a href={withBase('/invoice-template/vat-uk/')}>the UK VAT template</a> and{' '}
+      <a href={withBase('/invoice-template/eu-reverse-charge/')}>the EU reverse-charge template</a> — opens in{' '}
+      <strong>tax-exclusive</strong> mode; none of the 14 template pages currently override it (each template's own
+      sample table says "tax mode: exclusive"). Exclusive suits typical B2B quoting, where the price you agree on is
+      the pre-tax amount. If your jurisdiction or client expects an all-in, tax-inclusive price instead, switch the
+      "Tax mode" toggle in the editor at any time — it recalculates instantly, using the same math as the table above.
+    </p>
+
+    <h2>Related</h2>
+    <ul>
+      <li><a href={withBase('/guide/how-to-write-an-invoice/')}>How to write an invoice</a></li>
+      <li><a href={withBase('/invoice-template/vat-uk/')}>UK VAT invoice template</a></li>
+      <li><a href={withBase('/invoice-template/gst-india/')}>India GST invoice template</a></li>
+      <li><a href={withBase('/about/')}>Rounding &amp; tax-mode methodology</a></li>
+    </ul>
+
+    <Share url={absoluteUrl('/guide/tax-inclusive-vs-exclusive/')} text="Tax-inclusive vs tax-exclusive pricing, worked examples" />
+  </article>
+
+  <AdSlot slot="guide-mid" minHeight={90} />
+
+  <section class="container container--narrow section">
+    <Faq items={faqs} />
+  </section>
+
+  <section class="container">
+    <MoreTools />
+  </section>
+</Base>
+
+<style>
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--fg-muted);
+  }
+</style>

@@ -1,0 +1,650 @@
+[
+  {
+    "slug": "freelance",
+    "name": "Freelance Invoice Template",
+    "audience": "Independent freelancers billing a client for a project or a block of work.",
+    "docType": "invoice",
+    "currency": "USD",
+    "locale": "en-US",
+    "taxLabel": "Tax",
+    "terms": "net14",
+    "sampleItems": [
+      {
+        "description": "Discovery call and project scoping",
+        "qty": 1,
+        "unitPrice": 150,
+        "taxRate": 0,
+        "discount": 0
+      },
+      {
+        "description": "Design & build (fixed scope)",
+        "qty": 1,
+        "unitPrice": 2400,
+        "taxRate": 0,
+        "discount": 0
+      },
+      {
+        "description": "Two rounds of revisions",
+        "qty": 1,
+        "unitPrice": 0,
+        "taxRate": 0,
+        "discount": 0
+      }
+    ],
+    "notes": [
+      "Every invoice needs a unique sequential number, the issue date and your business name and address — see \"Invoice numbering\" in the guides for a numbering scheme that will not skip or repeat.",
+      "If you are not VAT/GST registered, do not add a tax line or the word \"VAT\"/\"Tax\" to the total — only registered businesses may charge it.",
+      "State your payment terms explicitly (e.g. \"Net 14\") — without an agreed date, statutory defaults still apply in many places (e.g. 30 days under UK and EU law), so spelling out your own terms avoids that ambiguity and makes any late-payment claim easier to support."
+    ],
+    "invoiceNotes": "",
+    "sources": [
+      {
+        "label": "IRS — recordkeeping for the self-employed",
+        "url": "https://www.irs.gov/businesses/small-businesses-self-employed/recordkeeping"
+      },
+      {
+        "label": "UK gov.uk — invoicing and taking payment from customers",
+        "url": "https://www.gov.uk/invoicing-and-taking-payment-from-customers"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Do freelancers need to charge tax on invoices?",
+        "a": "Only if you are registered to collect it (e.g. VAT/GST registered, or required to collect state sales tax). If you are not registered, leave the tax rate at 0% and do not label any line as tax."
+      },
+      {
+        "q": "What payment terms are normal for freelance work?",
+        "a": "Net 14 or Net 30 are the most common; many freelancers also request a deposit up front for new clients — set it under \"Deposit already paid\" once received."
+      }
+    ]
+  },
+  {
+    "slug": "consulting",
+    "name": "Consulting Invoice Template",
+    "audience": "Consultants billing by day rate or fixed engagement fee.",
+    "docType": "invoice",
+    "currency": "USD",
+    "locale": "en-US",
+    "taxLabel": "Tax",
+    "terms": "net30",
+    "sampleItems": [
+      {
+        "description": "Strategy engagement — 3 consulting days @ $900/day",
+        "qty": 3,
+        "unitPrice": 900,
+        "taxRate": 0,
+        "discount": 0
+      },
+      {
+        "description": "Written recommendations report",
+        "qty": 1,
+        "unitPrice": 500,
+        "taxRate": 0,
+        "discount": 0
+      }
+    ],
+    "notes": [
+      "Reference the engagement letter or purchase order number in \"Reference\" so the client's accounts-payable team can match it.",
+      "For multi-day engagements, list each day rate as one line with the quantity in days rather than one lump sum — it is easier for the client to audit.",
+      "Add your professional registration or tax ID under \"From\" if your jurisdiction requires it on B2B invoices."
+    ],
+    "invoiceNotes": "",
+    "sources": [
+      {
+        "label": "UK gov.uk — invoicing and taking payment from customers",
+        "url": "https://www.gov.uk/invoicing-and-taking-payment-from-customers"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Should I invoice per day or per project?",
+        "a": "Either works — list day-rate work as quantity × day rate so it is auditable, or a single fixed-fee line for project-based work. Keep whichever method your engagement letter promised."
+      }
+    ]
+  },
+  {
+    "slug": "web-design",
+    "name": "Web Design Invoice Template",
+    "audience": "Designers and developers billing a website project, often in milestones.",
+    "docType": "invoice",
+    "currency": "USD",
+    "locale": "en-US",
+    "taxLabel": "Tax",
+    "terms": "net14",
+    "sampleItems": [
+      {
+        "description": "Milestone 1 — UX wireframes & style guide",
+        "qty": 1,
+        "unitPrice": 900,
+        "taxRate": 0,
+        "discount": 0
+      },
+      {
+        "description": "Milestone 2 — build & CMS integration",
+        "qty": 1,
+        "unitPrice": 1800,
+        "taxRate": 0,
+        "discount": 0
+      },
+      {
+        "description": "Stock imagery licences (passed through at cost)",
+        "qty": 1,
+        "unitPrice": 60,
+        "taxRate": 0,
+        "discount": 0
+      }
+    ],
+    "notes": [
+      "Bill in milestones tied to your contract (deposit, midpoint, delivery) and set \"Deposit already paid\" once the upfront milestone is received.",
+      "Third-party costs you pass through at cost (stock photos, fonts, plugin licences) should be itemised separately, not folded into your design fee.",
+      "Clarify in \"Notes\" whether the invoice total includes ongoing hosting or maintenance, or whether that is billed separately."
+    ],
+    "invoiceNotes": "",
+    "sources": [
+      {
+        "label": "UK gov.uk — invoicing and taking payment from customers",
+        "url": "https://www.gov.uk/invoicing-and-taking-payment-from-customers"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "How do I invoice a website project in stages?",
+        "a": "Create one invoice per milestone using the same client and an incrementing invoice number, or one invoice listing each milestone as its own line item with its own amount — either is acceptable as long as the total matches the contract."
+      }
+    ]
+  },
+  {
+    "slug": "photography",
+    "name": "Photography Invoice Template",
+    "audience": "Photographers billing a session, package or licensed usage.",
+    "docType": "invoice",
+    "currency": "USD",
+    "locale": "en-US",
+    "taxLabel": "Tax",
+    "terms": "net7",
+    "sampleItems": [
+      {
+        "description": "Half-day session package (up to 4 hours)",
+        "qty": 1,
+        "unitPrice": 650,
+        "taxRate": 0,
+        "discount": 0
+      },
+      {
+        "description": "Extended digital usage licence (12 months)",
+        "qty": 1,
+        "unitPrice": 150,
+        "taxRate": 0,
+        "discount": 0
+      },
+      {
+        "description": "Printed album, 30 pages",
+        "qty": 1,
+        "unitPrice": 220,
+        "taxRate": 0,
+        "discount": 0
+      }
+    ],
+    "notes": [
+      "State exactly what is licensed (personal use, commercial use, duration) in \"Notes\" — usage rights, not just delivery of files, are usually what is being sold.",
+      "If a booking deposit was taken to hold the date, record it under \"Deposit already paid\" so the balance due is clear.",
+      "Package add-ons (extra hours, prints, albums) should be separate line items so the client can see what drove the total."
+    ],
+    "invoiceNotes": "",
+    "sources": [
+      {
+        "label": "UK gov.uk — invoicing and taking payment from customers",
+        "url": "https://www.gov.uk/invoicing-and-taking-payment-from-customers"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Should usage rights be a separate line item?",
+        "a": "Yes — separating the session fee from the usage licence makes it clear the client is paying for the right to use the images in a specific way, which matters if they later want an extended or commercial licence."
+      }
+    ]
+  },
+  {
+    "slug": "cleaning-services",
+    "name": "Cleaning Services Invoice Template",
+    "audience": "Cleaning businesses billing a one-off job or a recurring contract.",
+    "docType": "invoice",
+    "currency": "USD",
+    "locale": "en-US",
+    "taxLabel": "Tax",
+    "terms": "net7",
+    "sampleItems": [
+      {
+        "description": "Standard clean — 2 cleaners × 3 hours",
+        "qty": 6,
+        "unitPrice": 28,
+        "taxRate": 0,
+        "discount": 0
+      },
+      {
+        "description": "Supplies surcharge",
+        "qty": 1,
+        "unitPrice": 15,
+        "taxRate": 0,
+        "discount": 0
+      }
+    ],
+    "notes": [
+      "For a recurring contract, keep the number sequence continuous across visits (e.g. one invoice per week or per month) rather than restarting it.",
+      "If you charge a callout or supplies fee, itemise it separately from labour so clients can see the breakdown.",
+      "Confirm your due date matches what you agreed with the client (many recurring cleaning contracts use \"due on receipt\")."
+    ],
+    "invoiceNotes": "",
+    "sources": [
+      {
+        "label": "UK gov.uk — invoicing and taking payment from customers",
+        "url": "https://www.gov.uk/invoicing-and-taking-payment-from-customers"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "How do I bill a recurring cleaning contract?",
+        "a": "Save this document as a template (Save document), then duplicate it after each visit, updating the date and number — the invoice number sequence continues automatically when you use \"New invoice\"."
+      }
+    ]
+  },
+  {
+    "slug": "construction",
+    "name": "Construction Invoice Template",
+    "audience": "General contractors billing materials and labour, with an optional retention line.",
+    "docType": "invoice",
+    "currency": "USD",
+    "locale": "en-US",
+    "taxLabel": "Tax",
+    "terms": "net30",
+    "sampleItems": [
+      {
+        "description": "Labour — framing crew, 40 hours @ $55/hr",
+        "qty": 40,
+        "unitPrice": 55,
+        "taxRate": 0,
+        "discount": 0
+      },
+      {
+        "description": "Materials — lumber & fasteners (receipts attached)",
+        "qty": 1,
+        "unitPrice": 3200,
+        "taxRate": 0,
+        "discount": 0
+      },
+      {
+        "description": "Equipment hire — 3 days",
+        "qty": 3,
+        "unitPrice": 180,
+        "taxRate": 0,
+        "discount": 0
+      }
+    ],
+    "notes": [
+      "Separate labour, materials and equipment onto their own lines — many construction contracts and lien-waiver forms require this breakdown.",
+      "If the contract holds back a retention percentage, apply it as a global discount and note the retained amount and its expected release date in \"Notes\".",
+      "Keep material receipts on file; some jurisdictions require contractors to show materials were passed through at cost, not marked up, if the contract says so."
+    ],
+    "invoiceNotes": "",
+    "sources": [
+      {
+        "label": "UK gov.uk — invoicing and taking payment from customers",
+        "url": "https://www.gov.uk/invoicing-and-taking-payment-from-customers"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "How do I show a retention (holdback) on the invoice?",
+        "a": "Use the global discount field in \"amount\" mode for the retained sum, and explain in Notes when it will be invoiced separately once the retention period ends."
+      }
+    ]
+  },
+  {
+    "slug": "plumbing",
+    "name": "Plumbing Invoice Template",
+    "audience": "Plumbers and trades billing a callout, parts and labour.",
+    "docType": "invoice",
+    "currency": "USD",
+    "locale": "en-US",
+    "taxLabel": "Tax",
+    "terms": "receipt",
+    "sampleItems": [
+      {
+        "description": "Callout / diagnostic fee",
+        "qty": 1,
+        "unitPrice": 75,
+        "taxRate": 0,
+        "discount": 0
+      },
+      {
+        "description": "Labour — 1.5 hours @ $95/hr",
+        "qty": 1.5,
+        "unitPrice": 95,
+        "taxRate": 0,
+        "discount": 0
+      },
+      {
+        "description": "Parts — replacement valve and fittings",
+        "qty": 1,
+        "unitPrice": 48,
+        "taxRate": 0,
+        "discount": 0
+      }
+    ],
+    "notes": [
+      "List the callout fee separately from labour and parts — it is usually charged even if no further work is approved.",
+      "Note any warranty on parts or workmanship under \"Notes\" so the client has it in writing.",
+      "For same-day trade jobs, \"Due on receipt\" is the most common term; switch it in the Terms field if your business invoices net terms instead."
+    ],
+    "invoiceNotes": "",
+    "sources": [
+      {
+        "label": "UK gov.uk — invoicing and taking payment from customers",
+        "url": "https://www.gov.uk/invoicing-and-taking-payment-from-customers"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Do I need to itemise parts separately from labour?",
+        "a": "It is not always a legal requirement, but it is best practice: it lets the client see what they are paying for and reduces payment disputes."
+      }
+    ]
+  },
+  {
+    "slug": "hourly",
+    "name": "Hourly Rate Invoice Template",
+    "audience": "Anyone billing tracked hours at one or more rates, e.g. a timesheet export.",
+    "docType": "invoice",
+    "currency": "USD",
+    "locale": "en-US",
+    "taxLabel": "Tax",
+    "terms": "net14",
+    "sampleItems": [
+      {
+        "description": "Development — 12.5 hrs @ $85/hr (week of the 4th)",
+        "qty": 12.5,
+        "unitPrice": 85,
+        "taxRate": 0,
+        "discount": 0
+      },
+      {
+        "description": "Code review — 2 hrs @ $85/hr",
+        "qty": 2,
+        "unitPrice": 85,
+        "taxRate": 0,
+        "discount": 0
+      }
+    ],
+    "notes": [
+      "Quantities accept decimals, so quarter-hour tracking (e.g. 12.5, 2.25) works directly — no need to round to whole hours.",
+      "If you bill more than one rate (e.g. senior vs junior time), give each rate its own line rather than averaging them.",
+      "Reference the week or sprint covered by each line so the client can match it against their own time-tracking export."
+    ],
+    "invoiceNotes": "",
+    "sources": [
+      {
+        "label": "UK gov.uk — invoicing and taking payment from customers",
+        "url": "https://www.gov.uk/invoicing-and-taking-payment-from-customers"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Can I bill fractional hours?",
+        "a": "Yes — the quantity field accepts decimals (e.g. 1.25 hours), and unit price × quantity is rounded to the currency's minor unit per line, per the rounding rule on the About page."
+      }
+    ]
+  },
+  {
+    "slug": "proforma",
+    "name": "Proforma Invoice Template",
+    "audience": "Sellers sending a preliminary bill before goods ship or work begins, often for customs or advance payment.",
+    "docType": "invoice",
+    "currency": "USD",
+    "locale": "en-US",
+    "taxLabel": "Tax",
+    "terms": "net7",
+    "sampleItems": [
+      {
+        "description": "Product A — estimated unit price",
+        "qty": 50,
+        "unitPrice": 12.5,
+        "taxRate": 0,
+        "discount": 0
+      },
+      {
+        "description": "Estimated freight (subject to final weight)",
+        "qty": 1,
+        "unitPrice": 140,
+        "taxRate": 0,
+        "discount": 0
+      }
+    ],
+    "notes": [
+      "Label the document clearly as \"Proforma Invoice\" in Notes or Reference — it is a quotation-style document, not a demand for payment or a VAT invoice, and should not be entered into your sales ledger as revenue.",
+      "State that figures are estimates and the final commercial invoice may differ once quantities or shipping costs are confirmed.",
+      "Many customs authorities accept a proforma invoice to assess duty in advance, but require a commercial invoice for the actual shipment — check with the destination customs authority."
+    ],
+    "invoiceNotes": "PROFORMA INVOICE — this is not a VAT invoice or a demand for payment. Figures are estimates; a final commercial invoice will follow once quantities and shipping costs are confirmed.",
+    "sources": [
+      {
+        "label": "UK gov.uk — invoices and other commercial documents for export",
+        "url": "https://www.gov.uk/starting-to-export/invoices-and-other-commercial-documents"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Is a proforma invoice legally binding?",
+        "a": "No — it is a good-faith estimate used for quoting, customs valuation or advance payment. It is replaced by a final commercial invoice once the order is confirmed."
+      }
+    ]
+  },
+  {
+    "slug": "commercial-invoice",
+    "name": "Commercial Invoice Template",
+    "audience": "Exporters shipping goods internationally, where customs requires a commercial invoice.",
+    "docType": "invoice",
+    "currency": "USD",
+    "locale": "en-US",
+    "taxLabel": "Tax",
+    "terms": "net30",
+    "sampleItems": [
+      {
+        "description": "Product A — HS code 8471.30, country of origin: US, 50 units",
+        "qty": 50,
+        "unitPrice": 22,
+        "taxRate": 0,
+        "discount": 0
+      },
+      {
+        "description": "Freight (Incoterm: FOB origin port)",
+        "qty": 1,
+        "unitPrice": 310,
+        "taxRate": 0,
+        "discount": 0
+      }
+    ],
+    "notes": [
+      "Customs authorities typically expect the HS (Harmonized System) tariff code, country of origin and net/gross weight for each item — add these details to each line's description.",
+      "State the agreed Incoterm (e.g. FOB, CIF, DDP) so it is clear which party pays freight, insurance and import duty.",
+      "Requirements differ by destination country — check the importing country's customs authority for the exact commercial-invoice format it requires before shipping."
+    ],
+    "invoiceNotes": "",
+    "sources": [
+      {
+        "label": "ICC — Incoterms® rules",
+        "url": "https://iccwbo.org/business-solutions/incoterms-rules/"
+      },
+      {
+        "label": "UK gov.uk — invoices and other commercial documents for export",
+        "url": "https://www.gov.uk/starting-to-export/invoices-and-other-commercial-documents"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "What is an Incoterm and why does it belong on the invoice?",
+        "a": "Incoterms (e.g. FOB, CIF, DDP) are standard trade terms that define who pays for and is responsible for freight, insurance and duty at each stage of shipping. Customs and freight forwarders use it to calculate charges, so state it clearly in the invoice notes."
+      }
+    ]
+  },
+  {
+    "slug": "gst-india",
+    "name": "GST Invoice Template (India)",
+    "audience": "GST-registered businesses in India invoicing a customer with CGST/SGST or IGST.",
+    "docType": "invoice",
+    "currency": "INR",
+    "locale": "en-IN",
+    "taxLabel": "GST",
+    "terms": "net30",
+    "sampleItems": [
+      {
+        "description": "Consulting services (HSN/SAC 9983)",
+        "qty": 1,
+        "unitPrice": 25000,
+        "taxRate": 18,
+        "discount": 0
+      }
+    ],
+    "notes": [
+      "A GST tax invoice must show your GSTIN, the customer's GSTIN (for B2B), a consecutive invoice number, the HSN or SAC code for each item, and the taxable value and tax rate/amount for each tax head.",
+      "For an intra-state supply, split the GST rate into CGST + SGST at half the rate each; for an inter-state supply, charge the full rate as IGST instead — set the total rate here and record the split in \"Notes\" since this generator shows a single combined tax rate.",
+      "\"Notes\" below is left blank on purpose: fill in the one case that actually applies to this supply, e.g. \"GST charged as CGST 9% + SGST 9%\" or \"GST charged as IGST 18%\" — don't print both cases on the client's invoice.",
+      "Confirm current GST rates and place-of-supply rules for your goods or service on the official GST portal before invoicing, as rates vary by HSN/SAC code and can change."
+    ],
+    "invoiceNotes": "",
+    "sources": [
+      {
+        "label": "Government of India — GST Portal",
+        "url": "https://www.gst.gov.in/"
+      },
+      {
+        "label": "CBIC — Central Board of Indirect Taxes and Customs",
+        "url": "https://cbic-gst.gov.in/"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Does this tool split GST into CGST and SGST automatically?",
+        "a": "No — it calculates a single combined tax rate (e.g. 18%). For an intra-state sale, note in the document that the amount is split evenly into CGST and SGST; for inter-state, note it is charged fully as IGST."
+      },
+      {
+        "q": "What is an HSN/SAC code and is it required?",
+        "a": "HSN (goods) and SAC (services) codes classify what you are selling for GST purposes. Businesses above the government's prescribed turnover thresholds must show them on tax invoices — check the current requirement on the GST portal for your turnover band."
+      }
+    ]
+  },
+  {
+    "slug": "vat-uk",
+    "name": "UK VAT Invoice Template",
+    "audience": "VAT-registered UK businesses issuing a full VAT invoice.",
+    "docType": "invoice",
+    "currency": "GBP",
+    "locale": "en-GB",
+    "taxLabel": "VAT",
+    "terms": "net30",
+    "sampleItems": [
+      {
+        "description": "Consulting services",
+        "qty": 1,
+        "unitPrice": 1200,
+        "taxRate": 20,
+        "discount": 0
+      }
+    ],
+    "notes": [
+      "A full UK VAT invoice must show a unique invoice number, your business name/address and VAT registration number, the customer's name/address, the invoice date and time of supply, a description of the goods or services, and for each rate: the quantity, price excluding VAT, VAT rate and amount.",
+      "Show the VAT rate applied to each line and the total VAT payable in the currency of supply — this generator's tax breakdown groups items by rate automatically.",
+      "Confirm the correct VAT rate (standard, reduced or zero) for what you are selling, and any small-business invoicing simplifications you may qualify for, on HMRC's guidance."
+    ],
+    "invoiceNotes": "",
+    "sources": [
+      {
+        "label": "HMRC (gov.uk) — VAT invoices: what they must include",
+        "url": "https://www.gov.uk/vat-record-keeping/vat-invoices"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "What must a UK VAT invoice include?",
+        "a": "Your VAT number, a unique invoice number, the tax point (date of supply), a description, the amount excluding VAT, the VAT rate and amount, and the customer's details for invoices over a threshold — see HMRC's official list for the exact requirements and any threshold figures, which can change."
+      }
+    ]
+  },
+  {
+    "slug": "eu-reverse-charge",
+    "name": "EU Reverse-Charge Invoice Template",
+    "audience": "Businesses invoicing another VAT-registered business in a different EU country (intra-EU B2B services).",
+    "docType": "invoice",
+    "currency": "EUR",
+    "locale": "de-DE",
+    "taxLabel": "VAT",
+    "terms": "net30",
+    "sampleItems": [
+      {
+        "description": "Consulting services supplied to an EU business customer",
+        "qty": 1,
+        "unitPrice": 3000,
+        "taxRate": 0,
+        "discount": 0
+      }
+    ],
+    "notes": [
+      "Under the EU VAT Directive's reverse-charge mechanism for cross-border B2B supplies, the seller charges no VAT and the buyer self-accounts for VAT in their own country — set Tax to 0% here.",
+      "The invoice must still carry the mandatory wording \"Reverse charge\" (or the equivalent in the invoice's language) — add it to \"Notes\" or \"Payment instructions\" since this is a required statement, not optional.",
+      "Show both your VAT number and the customer's VAT number on the invoice — this is how reverse-charge supplies are reported (e.g. in an EC Sales List / recapitulative statement)."
+    ],
+    "invoiceNotes": "Reverse charge: VAT to be accounted for by the recipient under Article 196 of Council Directive 2006/112/EC (the EU VAT Directive).",
+    "sources": [
+      {
+        "label": "EUR-Lex — Council Directive 2006/112/EC (EU VAT Directive), Article 226 (invoice content) and reverse-charge provisions",
+        "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32006L0112"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Do I charge VAT on the reverse-charge invoice?",
+        "a": "No — under the reverse-charge mechanism the seller invoices at 0% VAT and the buyer accounts for the VAT themselves under their local rules. The invoice must state \"Reverse charge\" and show both parties' VAT numbers."
+      },
+      {
+        "q": "Does the reverse charge apply to goods as well as services?",
+        "a": "The mechanism applies to a range of cross-border B2B supplies of goods and services under the EU VAT Directive; the exact scope depends on what is supplied and to whom, so confirm with the official Directive text or your tax adviser before applying it."
+      }
+    ]
+  },
+  {
+    "slug": "usd-to-eur-client",
+    "name": "Cross-Currency Invoice Template (USD ↔ EUR)",
+    "audience": "US-based sellers invoicing a client who pays in euros, or vice versa.",
+    "docType": "invoice",
+    "currency": "EUR",
+    "locale": "de-DE",
+    "taxLabel": "Tax",
+    "terms": "net30",
+    "sampleItems": [
+      {
+        "description": "Project fee, agreed in EUR",
+        "qty": 1,
+        "unitPrice": 4500,
+        "taxRate": 0,
+        "discount": 0
+      }
+    ],
+    "notes": [
+      "Invoice in the currency you and the client agreed in the contract — switching currency after the fact can create a mismatch with the quoted price. Change the \"Currency\" field to EUR (or whichever was agreed) rather than converting manually.",
+      "If the underlying agreement was priced in a different currency, note the reference exchange rate and date used for conversion under \"Notes\", since bank conversion rates fluctuate and the client's bank will apply its own rate on payment.",
+      "Cross-border payments may incur receiving-bank or intermediary fees — state in \"Payment instructions\" whether the client should pay in full including any transfer fees."
+    ],
+    "invoiceNotes": "",
+    "sources": [
+      {
+        "label": "UK gov.uk — invoicing and taking payment from customers",
+        "url": "https://www.gov.uk/invoicing-and-taking-payment-from-customers"
+      }
+    ],
+    "faqs": [
+      {
+        "q": "Which currency should I invoice in for an international client?",
+        "a": "Whichever currency your contract or quote specified. This tool lets you pick any ISO 4217 currency and number format so the invoice matches the agreed price exactly, instead of converting after the fact."
+      }
+    ]
+  }
+]

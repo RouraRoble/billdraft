@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+import MoreTools from '../../components/MoreTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { site } from '../../site.config';
+import { withBase } from '../../lib/url';
+
+const title = 'Invoicing Guides';
+const description = 'Plain-language guides to writing, numbering and setting payment terms on invoices — answer-first, with sources.';
+
+const guides = [
+  { href: '/guide/how-to-write-an-invoice/', name: 'How to write an invoice', blurb: 'The 8 fields every invoice needs, plus what UK VAT, EU reverse-charge and India GST require.' },
+  { href: '/guide/invoice-numbering/', name: 'Invoice numbering', blurb: 'Numbering schemes and worked examples for a sequence that never repeats.' },
+  { href: '/guide/net-30-payment-terms/', name: 'What "Net 30" means', blurb: 'Net 7/14/30/60 explained, with a due-date table for an invoice issued today.' },
+  { href: '/guide/tax-inclusive-vs-exclusive/', name: 'Tax-inclusive vs tax-exclusive pricing', blurb: 'How each mode calculates tax, with worked $100 examples at four rates.' },
+];
+---
+
+<Base title={title} description={description}>
+  <section class="container container--narrow section prose">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Guides', url: '/guide/' }]} />
+    <p class="eyebrow">Guides</p>
+    <h1>{title}</h1>
+    <p class="muted small">Last updated: {site.updated}</p>
+    <p class="lead">{description}</p>
+    <ul>
+      {guides.map((g) => (
+        <li>
+          <a href={withBase(g.href)}><strong>{g.name}</strong></a> — {g.blurb}
+        </li>
+      ))}
+    </ul>
+    <p>Looking for a ready-made starting point instead? See the <a href={withBase('/invoice-template/')}>invoice templates</a>.</p>
+  </section>
+
+  <section class="container">
+    <MoreTools />
+  </section>
+</Base>
+
+<style>
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--fg-muted);
+  }
+</style>

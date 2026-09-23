@@ -1,0 +1,63 @@
+---
+import Base from '../../layouts/Base.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import MoreTools from '../../components/MoreTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { site } from '../../site.config';
+import { withBase } from '../../lib/url';
+import { TEMPLATES } from '../../lib/templates';
+
+const title = 'Free Invoice Templates by Industry & Country';
+const description = `${TEMPLATES.length} free, editable invoice templates — freelance, consulting, construction, and country-specific formats for UK VAT, India GST and the EU reverse charge.`;
+---
+
+<Base title={title} description={description}>
+  <section class="container container--narrow section prose">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Invoice templates', url: '/invoice-template/' }]} />
+    <p class="eyebrow">{TEMPLATES.length} templates</p>
+    <h1>{title}</h1>
+    <p class="muted small">Last updated: {site.updated}</p>
+    <p class="lead">
+      Every template below opens directly in the {site.name} editor with realistic sample line items and a summary of the
+      legal must-haves for that context, sourced from official guidance. Pick one, edit the details, and download a PDF.
+    </p>
+  </section>
+
+  <section class="container container--narrow">
+    <ul class="tpl-grid">
+      {TEMPLATES.map((t) => (
+        <li class="card">
+          <a href={withBase(`/invoice-template/${t.slug}/`)}>
+            <strong>{t.name}</strong>
+          </a>
+          <p class="muted small">{t.audience}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <AdSlot slot="template-index" minHeight={90} />
+
+  <section class="container">
+    <MoreTools />
+  </section>
+</Base>
+
+<style>
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--fg-muted);
+  }
+  .tpl-grid {
+    list-style: none;
+    margin: 0 0 var(--space-8);
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+  }
+  .tpl-grid a {
+    text-decoration: none;
+    color: var(--fg);
+  }
+</style>

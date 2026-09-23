@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../site.config';
+import { withBase } from '../lib/url';
+---
+
+<Base
+  title="Page not found"
+  description={`This page does not exist on ${site.name}, the free invoice, quote, receipt and credit note generator. Use the link below to get back to the tool.`}
+  noindex
+>
+  <section class="container container--narrow section">
+    <p class="eyebrow">404</p>
+    <h1>Page not found</h1>
+    <p class="muted">The link may be outdated or mistyped.</p>
+    <p><a class="btn" href={withBase('/')}>Go to {site.name}</a></p>
+  </section>
+</Base>

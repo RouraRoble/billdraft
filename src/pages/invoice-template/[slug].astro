@@ -1,0 +1,140 @@
+---
+import Base from '../../layouts/Base.astro';
+import Faq from '../../components/Faq.astro';
+import Share from '../../components/Share.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import MoreTools from '../../components/MoreTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { site } from '../../site.config';
+import { articleLd, clampDescription } from '../../lib/seo';
+import { absoluteUrl, withBase } from '../../lib/url';
+import { computeTotals, formatMoney, formatPercent, docLabels } from '../../lib/invoice';
+import { TEMPLATES, templateDoc, type InvoiceTemplate } from '../../lib/templates';
+
+export function getStaticPaths() {
+  return TEMPLATES.map((t) => ({ params: { slug: t.slug }, props: { t } }));
+}
+
+const { t } = Astro.props as { t: InvoiceTemplate };
+const today = site.updated;
+const doc = templateDoc(t, today);
+const totals = computeTotals(doc);
+// `#t=<slug>` opens the editor directly in edit mode, pre-filled with this template's sample
+// items and must-have wording. It is deliberately not the same `#d=<hash>` fragment a shared
+// document link uses — that one always opens read-only "View mode", which is wrong for a
+// template a visitor is meant to edit (see audit finding on template pages).
+const useUrl = `${withBase('/')}#t=${t.slug}`;
+const labels = docLabels(t.docType);
+
+const title = `${t.name} — Free`;
+const description = clampDescription(
+  `${t.name}: ${t.audience} Free, editable ${labels.title.toLowerCase()} template with a sample total of ${formatMoney(totals.total, doc.currency, doc.locale)} — no sign-up, no watermark.`,
+);
+
+const related = TEMPLATES.filter((x) => x.slug !== t.slug).slice(0, 6);
+---
+
+<Base
+  title={title}
+  description={description}
+  type="article"
+  jsonLd={articleLd({ headline: t.name, description, url: `/invoice-template/${t.slug}/`, datePublished: site.launched, dateModified: site.updated })}
+>
+  <article class="container container--narrow section prose">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Invoice templates', url: '/invoice-template/' }, { name: t.name, url: `/invoice-template/${t.slug}/` }]} />
+    <p class="eyebrow">Free {labels.title.toLowerCase()} template</p>
+    <h1>{t.name}</h1>
+    <p class="muted small">Last updated: {site.updated}</p>
+    <p class="lead">{t.audience} This template preloads sample line items and the legal must-haves for this context below — edit any field once you open it.</p>
+    <p><a class="btn" href={useUrl}>Use this template in the editor →</a></p>
+
+    <h2>Sample line items</h2>
+    <p>
+      A typical {t.name.toLowerCase()} in {doc.currency} totals <strong>{formatMoney(totals.total, doc.currency, doc.locale)}</strong> for
+      the items below (tax mode: {doc.taxMode}).
+    </p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Description</th>
+            <th scope="col">Qty</th>
+            <th scope="col">Unit price</th>
+            <th scope="col">{t.taxLabel}</th>
+            <th scope="col">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {totals.lines.map((l, i) => {
+            const it = doc.items[i];
+            return (
+              <tr>
+                <td>{it.description}</td>
+                <td>{it.qty}</td>
+                <td>{formatMoney(it.unitPrice, doc.currency, doc.locale)}</td>
+                <td>{it.taxRate ? formatPercent(it.taxRate, doc.locale) : '—'}</td>
+                <td>{formatMoney(l.net, doc.currency, doc.locale)}</td>
+              </tr>
+            );
+          })}
+          <tr>
+            <td colspan="4"><strong>Total</strong></td>
+            <td><strong>{formatMoney(totals.total, doc.currency, doc.locale)}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>What this template gets right</h2>
+    <ul>
+      {t.notes.map((n) => <li>{n}</li>)}
+    </ul>
+    <p class="small muted">
+      Sources:{' '}
+      {t.sources.map((s, i) => (
+        <>
+          <a href={s.url} rel="noopener" target="_blank">{s.label}</a>
+          {i < t.sources.length - 1 ? ', ' : ''}
+        </>
+      ))}
+      . Last checked {site.updated}. Rules change — verify current thresholds and rates with the official source before relying on this for filing.
+    </p>
+
+    <Share url={absoluteUrl(`/invoice-template/${t.slug}/`)} text={`${t.name} — free, editable, no sign-up`} />
+  </article>
+
+  <AdSlot slot="template-mid" minHeight={90} />
+
+  <section class="container container--narrow section">
+    <Faq items={t.faqs} />
+  </section>
+
+  <nav class="container container--narrow section" aria-label="Related templates">
+    <h2>More invoice templates</h2>
+    <ul class="related-list">
+      {related.map((r) => (
+        <li><a href={withBase(`/invoice-template/${r.slug}/`)}>{r.name}</a></li>
+      ))}
+    </ul>
+    <p><a href={withBase('/invoice-template/')}>See all templates →</a></p>
+  </nav>
+
+  <section class="container">
+    <MoreTools />
+  </section>
+</Base>
+
+<style>
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--fg-muted);
+  }
+  .related-list {
+    list-style: none;
+    margin: var(--space-4) 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-2);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  }
+</style>

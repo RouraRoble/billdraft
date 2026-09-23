@@ -1,0 +1,54 @@
+---
+import { site } from '../site.config';
+import { withBase } from '../lib/url';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <p class="site-footer__brand">
+      <strong>{site.name}</strong> — {site.tagline}
+    </p>
+    <nav aria-label="Footer">
+      <ul>
+        <li><a href={withBase('/about/')}>About</a></li>
+        <li><a href={withBase('/contact/')}>Contact</a></li>
+        <li><a href={withBase('/privacy/')}>Privacy</a></li>
+        <li><a href={withBase('/terms/')}>Terms</a></li>
+      </ul>
+    </nav>
+    <p class="site-footer__legal">© {year} {site.name}. Free to use. No account required.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    margin-top: var(--space-12);
+    padding: var(--space-8) 0;
+    color: var(--fg-muted);
+    font-size: var(--text-sm);
+  }
+  .site-footer__inner {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .site-footer ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .site-footer a {
+    color: var(--fg-muted);
+  }
+  .site-footer a:hover {
+    color: var(--fg);
+  }
+  .site-footer__brand,
+  .site-footer__legal {
+    margin: 0;
+  }
+</style>

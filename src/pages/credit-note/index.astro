@@ -1,0 +1,60 @@
+---
+import Base from '../../layouts/Base.astro';
+import Faq from '../../components/Faq.astro';
+import Share from '../../components/Share.astro';
+import Editor from '../../components/Editor.tsx';
+import Affiliate from '../../components/Affiliate.astro';
+import MoreTools from '../../components/MoreTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { site } from '../../site.config';
+import { webAppLd } from '../../lib/seo';
+import { absoluteUrl } from '../../lib/url';
+
+const title = 'Free Credit Note Generator — Refunds & Corrections';
+const description = 'Create a credit note to refund or correct a previous invoice: reference the original invoice number, list the credited items and get the right total.';
+
+const faqs = [
+  { q: 'When do I need a credit note instead of a new invoice?', a: 'Use a credit note to reduce or cancel an amount already invoiced — a return, an overcharge, or a discount agreed after the fact — instead of editing or deleting the original invoice.' },
+  { q: 'Should a credit note reference the original invoice?', a: 'Yes. Put the original invoice number in the "Reference" field so both documents can be matched during bookkeeping or an audit.' },
+  { q: 'Does a credit note reduce the tax I reported?', a: 'In most tax systems a credit note reverses the tax on the credited amount, following the same tax mode and rate as the original invoice. Confirm the treatment for your country with your tax authority or accountant.' },
+];
+---
+
+<Base title={title} description={description} jsonLd={webAppLd({ name: `${site.name} Credit Note Generator`, url: '/credit-note/', description, features: ['Credit notes referencing an original invoice', 'Multi-currency with tax breakdown', 'Print to PDF', 'Shareable read-only link'] })}>
+  <section class="hero container">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Credit note generator', url: '/credit-note/' }]} />
+    <p class="eyebrow">Free online tool · No sign-up</p>
+    <h1>Free credit note generator</h1>
+    <p class="muted small">Last updated: {site.updated}</p>
+    <p class="lead">{description}</p>
+  </section>
+
+  <section class="container" aria-label="Credit note generator">
+    <Editor client:load initialType="credit-note" />
+  </section>
+
+  <section class="container container--narrow section no-print">
+    <Share url={absoluteUrl('/credit-note/')} text={`${site.name}: free credit note generator`} />
+  </section>
+
+  <Affiliate />
+
+  <section class="container container--narrow section no-print">
+    <Faq items={faqs} />
+  </section>
+
+  <section class="container no-print">
+    <MoreTools />
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-block: var(--space-6);
+  }
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--fg-muted);
+    max-width: 60ch;
+  }
+</style>

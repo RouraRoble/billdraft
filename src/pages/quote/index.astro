@@ -1,0 +1,60 @@
+---
+import Base from '../../layouts/Base.astro';
+import Faq from '../../components/Faq.astro';
+import Share from '../../components/Share.astro';
+import Editor from '../../components/Editor.tsx';
+import Affiliate from '../../components/Affiliate.astro';
+import MoreTools from '../../components/MoreTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { site } from '../../site.config';
+import { webAppLd } from '../../lib/seo';
+import { absoluteUrl } from '../../lib/url';
+
+const title = 'Free Quote Generator — Estimate in Minutes';
+const description = 'Create a professional price quote or estimate for a client: line items, tax, discount, a validity date and a link they can open to accept.';
+
+const faqs = [
+  { q: 'What is the difference between a quote and an invoice?', a: 'A quote (estimate) proposes a price before work starts and is not a demand for payment. An invoice is issued after work is delivered and asks to be paid by a due date.' },
+  { q: 'How long should a quote stay valid?', a: 'Common practice is 15–30 days; set it under "Valid for" and the document shows the exact expiry date so the client knows when the price may change.' },
+  { q: 'Can I turn an accepted quote into an invoice?', a: 'Yes — open your saved quote, switch the document type tab to "Invoice", and update the number and dates; the client and line items carry over.' },
+];
+---
+
+<Base title={title} description={description} jsonLd={webAppLd({ name: `${site.name} Quote Generator`, url: '/quote/', description, features: ['Quotes with a validity date', 'Multi-currency with tax and discount', 'Print to PDF', 'Shareable read-only link'] })}>
+  <section class="hero container">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Quote generator', url: '/quote/' }]} />
+    <p class="eyebrow">Free online tool · No sign-up</p>
+    <h1>Free quote &amp; estimate generator</h1>
+    <p class="muted small">Last updated: {site.updated}</p>
+    <p class="lead">{description}</p>
+  </section>
+
+  <section class="container" aria-label="Quote generator">
+    <Editor client:load initialType="quote" />
+  </section>
+
+  <section class="container container--narrow section no-print">
+    <Share url={absoluteUrl('/quote/')} text={`${site.name}: free quote generator`} />
+  </section>
+
+  <Affiliate />
+
+  <section class="container container--narrow section no-print">
+    <Faq items={faqs} />
+  </section>
+
+  <section class="container no-print">
+    <MoreTools />
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-block: var(--space-6);
+  }
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--fg-muted);
+    max-width: 60ch;
+  }
+</style>

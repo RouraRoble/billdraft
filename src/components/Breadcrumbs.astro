@@ -1,0 +1,42 @@
+---
+import { withBase } from '../lib/url';
+import { breadcrumbLd, ldJson } from '../lib/seo';
+interface Props {
+  items: { name: string; url: string }[];
+}
+const { items } = Astro.props;
+---
+
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol>
+    {
+      items.map((it, i) => (
+        <li>
+          {i < items.length - 1 ? <a href={withBase(it.url)}>{it.name}</a> : <span aria-current="page">{it.name}</span>}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+<script type="application/ld+json" set:html={ldJson(breadcrumbLd(items))} />
+
+<style>
+  .breadcrumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    list-style: none;
+    margin: 0 0 var(--space-4);
+    padding: 0;
+    font-size: var(--text-sm);
+    color: var(--fg-muted);
+  }
+  .breadcrumbs li + li::before {
+    content: '/';
+    margin: 0 var(--space-2);
+    color: var(--border-strong);
+  }
+  .breadcrumbs a {
+    color: var(--fg-muted);
+  }
+</style>

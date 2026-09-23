@@ -1,0 +1,97 @@
+---
+import { site } from '../site.config';
+import { withBase, stripBase } from '../lib/url';
+interface Props {
+  links?: { href: string; label: string }[];
+}
+const { links = [] } = Astro.props;
+const current = stripBase(Astro.url.pathname);
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="brand" href={withBase('/')} aria-label={`${site.name} home`}>
+      <img src={withBase('/favicon.svg')} alt="" width="28" height="28" />
+      <span>{site.name}</span>
+    </a>
+    {
+      links.length > 0 && (
+        <nav aria-label="Primary">
+          <ul class="nav">
+            {links.map((l) => (
+              <li>
+                <a href={withBase(l.href)} aria-current={current === l.href ? 'page' : undefined}>
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )
+    }
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--border);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: saturate(1.4) blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    min-height: 56px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+    text-decoration: none;
+  }
+  /* Nav never wraps into a tall sticky header: on narrow screens it scrolls horizontally instead. */
+  .nav {
+    display: flex;
+    gap: var(--space-4);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+  .nav::-webkit-scrollbar {
+    display: none;
+  }
+  @media (max-width: 640px) {
+    .site-header__inner {
+      flex-wrap: wrap;
+      row-gap: 0;
+    }
+    .nav {
+      flex-basis: 100%;
+      padding-bottom: var(--space-2);
+    }
+  }
+  .nav a {
+    color: var(--fg-muted);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    padding: var(--space-2) 0;
+  }
+  .nav a:hover,
+  .nav a[aria-current='page'] {
+    color: var(--fg);
+  }
+</style>

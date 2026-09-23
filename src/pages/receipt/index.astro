@@ -1,0 +1,60 @@
+---
+import Base from '../../layouts/Base.astro';
+import Faq from '../../components/Faq.astro';
+import Share from '../../components/Share.astro';
+import Editor from '../../components/Editor.tsx';
+import Affiliate from '../../components/Affiliate.astro';
+import MoreTools from '../../components/MoreTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { site } from '../../site.config';
+import { webAppLd } from '../../lib/seo';
+import { absoluteUrl } from '../../lib/url';
+
+const title = 'Free Receipt Generator — Proof of Payment';
+const description = 'Create a payment receipt with line items, tax breakdown and the amount paid — a clean PDF proof of payment for cash, card or transfer.';
+
+const faqs = [
+  { q: 'What must a receipt show?', a: 'The date of payment, who paid whom, what was paid for, the amount, and any tax charged. This generator fills those fields and computes the tax breakdown for you.' },
+  { q: 'Is a receipt the same as an invoice?', a: 'No. An invoice requests payment; a receipt confirms payment already received. Switch the document type tab to "Invoice" first if you still need to bill the client.' },
+  { q: 'Can I show a partial payment on a receipt?', a: 'Yes — set "Deposit already paid" to the amount received; the balance still owed is shown separately from the total.' },
+];
+---
+
+<Base title={title} description={description} jsonLd={webAppLd({ name: `${site.name} Receipt Generator`, url: '/receipt/', description, features: ['Payment receipts with tax breakdown', 'Multi-currency', 'Print to PDF', 'Shareable read-only link'] })}>
+  <section class="hero container">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Receipt generator', url: '/receipt/' }]} />
+    <p class="eyebrow">Free online tool · No sign-up</p>
+    <h1>Free receipt generator</h1>
+    <p class="muted small">Last updated: {site.updated}</p>
+    <p class="lead">{description}</p>
+  </section>
+
+  <section class="container" aria-label="Receipt generator">
+    <Editor client:load initialType="receipt" />
+  </section>
+
+  <section class="container container--narrow section no-print">
+    <Share url={absoluteUrl('/receipt/')} text={`${site.name}: free receipt generator`} />
+  </section>
+
+  <Affiliate />
+
+  <section class="container container--narrow section no-print">
+    <Faq items={faqs} />
+  </section>
+
+  <section class="container no-print">
+    <MoreTools />
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-block: var(--space-6);
+  }
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--fg-muted);
+    max-width: 60ch;
+  }
+</style>

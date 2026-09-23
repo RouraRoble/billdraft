@@ -1,0 +1,124 @@
+---
+import Base from '../../layouts/Base.astro';
+import Faq from '../../components/Faq.astro';
+import Share from '../../components/Share.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import MoreTools from '../../components/MoreTools.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { site } from '../../site.config';
+import { articleLd, howToLd } from '../../lib/seo';
+import { absoluteUrl, withBase } from '../../lib/url';
+
+const title = 'How to Write an Invoice: Required Fields';
+const description = 'The exact fields every invoice needs, plus what UK VAT, EU reverse-charge and India GST invoices require in addition — with a free generator that fills them in.';
+
+const coreFields = [
+  ['Invoice number', 'A unique, sequential number so no invoice is skipped or reused — see the numbering guide.'],
+  ['Issue date', 'The date the invoice is sent, used to calculate the due date.'],
+  ['Due date or payment terms', 'A specific date, or terms like "Net 30" the reader can calculate from the issue date.'],
+  ['Your business name & contact details', 'Name or trading name, address, and email or phone.'],
+  ['Client name & address', 'Who is being billed — a company name and address, or an individual’s.'],
+  ['Description of goods or services', 'What was provided, in enough detail to be understood without other context.'],
+  ['Quantity and unit price', 'For each line, so the amount can be checked.'],
+  ['Total amount due', 'The final amount, in a clearly stated currency.'],
+];
+
+const regionFields = [
+  ['United States', 'No federal invoice format is mandated. If you charge state sales tax, follow your state revenue department’s rules; otherwise the core fields above are sufficient for most B2B invoicing.'],
+  ['United Kingdom (VAT-registered)', 'Add your VAT registration number, the tax point (time of supply), and for each VAT rate: the rate, the amount excluding VAT and the VAT amount. See HMRC’s VAT invoices guidance for the full list.'],
+  ['European Union (cross-border B2B / reverse charge)', 'Add both parties’ VAT numbers and the mandatory wording "Reverse charge" when VAT is shifted to the buyer, per Article 226 of the EU VAT Directive.'],
+  ['India (GST-registered)', 'Add your GSTIN, the customer’s GSTIN for B2B sales, the HSN/SAC code per line, and the GST rate split into CGST+SGST (intra-state) or IGST (inter-state).'],
+];
+
+// The 8 core fields, in the order a person fills them in, doubles as the HowTo schema's steps —
+// real, existing content (the same `coreFields` table above), not invented for the schema.
+const howToSteps = coreFields.map(([f, w]) => ({ name: f, text: w }));
+
+const faqs = [
+  { q: 'What is the minimum an invoice legally needs?', a: 'At minimum: a unique invoice number, issue date, your details, the client’s details, a description of what was supplied, the amount and the currency. Tax-registered businesses must add their tax registration number and a tax breakdown — see the region table above.' },
+  { q: 'Do I need to number invoices in order?', a: 'Yes — tax authorities generally expect a sequential, gapless numbering scheme so invoices can be audited. See the "Invoice numbering" guide for schemes that will not repeat or skip.' },
+  { q: 'Can I send an invoice as a PDF I create myself?', a: 'Yes — there is no requirement to use accounting software. A PDF containing the required fields is a valid invoice in most jurisdictions; keep a copy for your own records.' },
+];
+---
+
+<Base
+  title={title}
+  description={description}
+  type="article"
+  jsonLd={[
+    articleLd({ headline: title, description, url: '/guide/how-to-write-an-invoice/', datePublished: site.launched, dateModified: site.updated }),
+    howToLd({ name: title, description, steps: howToSteps }),
+  ]}
+>
+  <article class="container container--narrow section prose">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Guides', url: '/guide/' }, { name: 'How to write an invoice', url: '/guide/how-to-write-an-invoice/' }]} />
+    <p class="eyebrow">Guide</p>
+    <h1>How to write an invoice</h1>
+    <p class="muted small">Last updated: {site.updated}</p>
+    <p class="lead">
+      Every valid invoice needs eight core fields, listed below. If you or your client are tax-registered, add the fields
+      for your region in the second table. The fastest way to get all of them right is to{' '}
+      <a href={withBase('/')}>fill in the free generator</a> — it fills the checklist for you and computes the totals.
+    </p>
+
+    <h2>The 8 fields every invoice needs</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Field</th><th scope="col">Why it matters</th></tr>
+        </thead>
+        <tbody>
+          {coreFields.map(([f, w]) => <tr><td><strong>{f}</strong></td><td>{w}</td></tr>)}
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Extra fields required by region</h2>
+    <p>These apply on top of the core fields above, only if you (or the transaction) are registered for that tax.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Region</th><th scope="col">What to add</th></tr>
+        </thead>
+        <tbody>
+          {regionFields.map(([r, w]) => <tr><td><strong>{r}</strong></td><td>{w}</td></tr>)}
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted">
+      Sources: <a href="https://www.gov.uk/vat-record-keeping/vat-invoices" rel="noopener" target="_blank">HMRC — VAT invoices</a>,{' '}
+      <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32006L0112" rel="noopener" target="_blank">EU VAT Directive 2006/112/EC, Art. 226</a>,{' '}
+      <a href="https://www.gst.gov.in/" rel="noopener" target="_blank">India GST Portal</a>. Last checked {site.updated}. Rules and
+      thresholds change — confirm specifics with the official source for your situation.
+    </p>
+
+    <h2>Related templates</h2>
+    <ul>
+      <li><a href={withBase('/invoice-template/vat-uk/')}>UK VAT invoice template</a></li>
+      <li><a href={withBase('/invoice-template/gst-india/')}>India GST invoice template</a></li>
+      <li><a href={withBase('/invoice-template/eu-reverse-charge/')}>EU reverse-charge invoice template</a></li>
+      <li><a href={withBase('/guide/invoice-numbering/')}>How to number invoices</a></li>
+      <li><a href={withBase('/guide/net-30-payment-terms/')}>What "Net 30" means</a></li>
+      <li><a href={withBase('/guide/tax-inclusive-vs-exclusive/')}>Tax-inclusive vs tax-exclusive pricing</a></li>
+    </ul>
+
+    <Share url={absoluteUrl('/guide/how-to-write-an-invoice/')} text="How to write an invoice — free checklist + generator" />
+  </article>
+
+  <AdSlot slot="guide-mid" minHeight={90} />
+
+  <section class="container container--narrow section">
+    <Faq items={faqs} />
+  </section>
+
+  <section class="container">
+    <MoreTools />
+  </section>
+</Base>
+
+<style>
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--fg-muted);
+  }
+</style>

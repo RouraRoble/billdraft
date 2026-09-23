@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { site } from '../site.config';
+const title = 'Contact';
+const description = `Contact the ${site.name} team for bug reports, feature requests, partnerships or press.`;
+---
+
+<Base title={title} description={description}>
+  <article class="container container--narrow section prose">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'Contact', url: '/contact/' }]} />
+    <h1>{title}</h1>
+    <p>We read every message. Typical reply time is a few days.</p>
+    <ul>
+      <li>Email: <a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a></li>
+      <li>Source and issues: <a href={site.author.url} rel="noopener">{site.author.url}</a></li>
+    </ul>
+    <h2>What to include</h2>
+    <ul>
+      <li>For bugs: the page URL, what you expected, what happened, and your browser.</li>
+      <li>For data corrections: the exact value, the correct value and a source we can verify.</li>
+    </ul>
+  </article>
+</Base>

@@ -1,0 +1,40 @@
+---
+/**
+ * Privacy-first analytics.
+ * - If PUBLIC_PLAUSIBLE_DOMAIN is set: loads Plausible (cookieless) — remember to allow plausible.io in the CSP scriptDirective.
+ * - Else if PUBLIC_BEACON_URL is set: sends one cookieless pageview beacon (site, path, referrer host, viewport class).
+ * - Else: nothing is loaded.
+ * The beacon script is a processed (bundled) script, not `is:inline`, so it passes the strict CSP (hash/self).
+ * Configuration travels via data attributes because processed scripts cannot use define:vars.
+ */
+import { site } from '../site.config';
+const plausible = site.plausibleDomain;
+const beacon = site.beaconUrl;
+---
+
+{plausible && <script defer data-domain={plausible} src="https://plausible.io/js/script.js" />}
+{beacon && <span id="rl-beacon" data-url={beacon} data-site={site.slug} hidden></span>}
+
+<script>
+  const el = document.getElementById('rl-beacon') as HTMLElement | null;
+  if (el && el.dataset.url) {
+    try {
+      const dnt = navigator.doNotTrack === '1' || (window as any).doNotTrack === '1';
+      if (!dnt && typeof navigator.sendBeacon === 'function') {
+        let r = '';
+        try {
+          r = document.referrer ? new URL(document.referrer).host : '';
+        } catch {
+          r = '';
+        }
+        if (r === location.host) r = '';
+        const w = innerWidth < 640 ? 's' : innerWidth < 1024 ? 'm' : 'l';
+        const body = JSON.stringify({ s: el.dataset.site, p: location.pathname, r, w });
+        // text/plain keeps this a "simple" request (no CORS preflight); the response is never read.
+        navigator.sendBeacon(el.dataset.url, new Blob([body], { type: 'text/plain' }));
+      }
+    } catch {
+      /* analytics must never break the page */
+    }
+  }
+</script>

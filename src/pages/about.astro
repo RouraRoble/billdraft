@@ -1,0 +1,89 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import MoreTools from '../components/MoreTools.astro';
+import { site } from '../site.config';
+import { withBase } from '../lib/url';
+import { LIMITS } from '../lib/invoice';
+const title = `About ${site.name}`;
+const description = `How ${site.name} calculates totals and rounding, which tax modes it supports, and exactly what is stored and where.`;
+---
+
+<Base title={title} description={description}>
+  <article class="container container--narrow section prose">
+    <Breadcrumbs items={[{ name: 'Home', url: '/' }, { name: 'About', url: '/about/' }]} />
+    <h1>{title}</h1>
+    <p class="muted small">Last updated: {site.updated}</p>
+    <p>{site.description}</p>
+
+    <h2>Methodology: rounding</h2>
+    <p>
+      Every money amount is rounded to the invoicing currency's minor unit — 2 decimal places for most currencies, 0 for
+      currencies like JPY or KRW, 3 for currencies like KWD or BHD, per ISO 4217 — the moment it is produced: per line,
+      per discount share, per tax line. Rounding uses round-half-away-from-zero on a float-noise-corrected value (so
+      0.1 + 0.2 never shows as 0.30000000000000004). Totals are sums of already-rounded parts, so every printed line adds
+      up exactly to the printed total — there is no separate "rounding adjustment" line to reconcile.
+    </p>
+
+    <h2>Methodology: tax modes</h2>
+    <p>
+      <strong>Exclusive tax</strong> (the default) adds tax on top of the line amount: <code>tax = amount × rate</code>.{' '}
+      <strong>Inclusive tax</strong> treats the line amount as already containing tax and backs it out:{' '}
+      <code>taxable = amount ÷ (1 + rate)</code>, <code>tax = amount − taxable</code>. Each line item can carry its own tax
+      rate; the document groups and subtotals tax by rate. A global discount (percentage or fixed amount, capped at the
+      subtotal) is allocated across lines in proportion to each line's net amount before tax is calculated on the
+      discounted amount, so tax is never charged on a discount that was not actually applied.
+    </p>
+
+    <h2>Methodology: due dates &amp; numbering</h2>
+    <p>
+      "Net N" terms add N calendar days to the issue date (see the <a href={withBase('/guide/net-30-payment-terms/')}>Net 30 guide</a>{' '}
+      for a worked table); "Custom" keeps whatever date you set. Document numbers auto-increment per document type
+      (invoice / quote / receipt / credit note) using a counter kept in your browser, incrementing the trailing digit run
+      of the last number used and preserving zero-padding (see the <a href={withBase('/guide/invoice-numbering/')}>numbering guide</a>).
+    </p>
+
+    <h2>What is stored, and where</h2>
+    <ul>
+      <li>Your current draft, saved documents, saved clients and the per-type numbering counters are written only to this
+        browser's <code>localStorage</code> — never to a server. Clearing your browser's site data removes them.</li>
+      <li>A logo you upload is kept as a data URL in local storage; it is included in a share link only if it is smaller
+        than {Math.round(LIMITS.logoShareBytes / 1024)} KB, to keep links a reasonable length.</li>
+      <li>The <strong>share link</strong> ("Share this document") encodes the entire document — client, items, totals,
+        template — compressed into the URL fragment after <code>#</code> using the open-source <code>lz-string</code>{' '}
+        library. Text after <code>#</code> is never sent to any server by the browser, but anyone who has the link can
+        open and read the document, so only share it with people who should see it. There is no database and no account
+        behind this feature.</li>
+      <li>Nothing is sent to us. If analytics are enabled, they are aggregate and cookieless — see the{' '}
+        <a href={withBase('/privacy/')}>privacy policy</a> for exactly what that means.</li>
+    </ul>
+
+    <h2>Known limits</h2>
+    <ul>
+      <li>This is not tax, legal or accounting advice. The invoice template pages summarise commonly cited requirements
+        (e.g. UK VAT invoice content, EU reverse-charge wording, India GST fields) with links to official sources — always
+        confirm current rates and thresholds there before relying on a document for filing.</li>
+      <li>"Download as image (PNG)" is not implemented yet; use "Download PDF" (print to PDF), which is fully supported.</li>
+      <li>There is no cloud backup — use "Export JSON backup" in the editor's Saved panel periodically if you rely on the
+        saved-documents list, especially before clearing browser data or switching devices.</li>
+    </ul>
+
+    <h2>Licensing &amp; attribution</h2>
+    <p>
+      Built with open-source libraries used under their own licences: Astro, Preact (MIT), <code>lz-string</code> (MIT,
+      URL-safe document compression) and <code>qrcode</code> (MIT, pay-link QR codes). No third-party invoice templates,
+      images or fonts requiring paid licensing are used; UI text is original.
+    </p>
+
+    <h2>Who maintains it</h2>
+    <p>
+      Built and maintained by <a href={site.author.url} rel="noopener">{site.author.name}</a>. Launched {site.launched}.
+      Found a bug, an incorrect figure, or a stale source link? <a href={withBase('/contact/')}>Get in touch</a> — data
+      corrections are the fastest fixes we make.
+    </p>
+  </article>
+
+  <section class="container">
+    <MoreTools />
+  </section>
+</Base>

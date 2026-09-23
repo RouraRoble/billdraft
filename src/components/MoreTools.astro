@@ -1,0 +1,53 @@
+---
+/**
+ * Cross-links to the other products in the portfolio (internal-linking + discovery).
+ * Excludes the current product automatically. Links are absolute (separate GitHub Pages sites).
+ */
+import { site } from '../site.config';
+const all = [
+  { slug: 'whirl', name: 'Whirl', blurb: 'Spin the wheel, pick a name' },
+  { slug: 'everqr', name: 'EverQR', blurb: 'QR codes that never expire' },
+  { slug: 'compoundly', name: 'Compoundly', blurb: 'Compare growth scenarios' },
+  { slug: 'gramcup', name: 'GramCup', blurb: 'Grams to cups by ingredient' },
+  { slug: 'holiday-atlas', name: 'Holiday Atlas', blurb: 'Public holidays & long weekends' },
+  { slug: 'pixlite', name: 'Pixlite', blurb: 'Compress & convert images privately' },
+  { slug: 'gradegoal', name: 'GradeGoal', blurb: 'What you need on the final' },
+  { slug: 'geostreak', name: 'GeoStreak', blurb: 'Daily geography puzzles' },
+  { slug: 'worththen', name: 'WorthThen', blurb: 'Inflation calculator' },
+  { slug: 'billdraft', name: 'BillDraft', blurb: 'Free invoice generator' },
+];
+const others = all.filter((p) => p.slug !== site.slug);
+---
+
+<nav class="more-tools" aria-label="More free tools">
+  <p class="more-tools__title">More free tools from <a href="https://rouraroble.github.io/">Roura Labs</a></p>
+  <ul>
+    {
+      others.map((p) => (
+        <li>
+          <a href={`https://rouraroble.github.io/${p.slug}/`}>{p.name}</a>
+          <span class="muted"> — {p.blurb}</span>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  .more-tools {
+    font-size: var(--text-sm);
+    margin-block: var(--space-8);
+  }
+  .more-tools__title {
+    font-weight: 600;
+    margin-bottom: var(--space-2);
+  }
+  .more-tools ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-1) var(--space-4);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+  }
+</style>

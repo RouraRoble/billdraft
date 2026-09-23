@@ -1,0 +1,73 @@
+---
+/**
+ * Sponsored partner block, config-driven from site.config.ts `affiliate`.
+ * Renders nothing if disabled or empty. URLs are '#' placeholders until a partner programme is joined
+ * (see PRODUCT.md "Monetization"); links carry rel="sponsored noopener" and a visible "Sponsored" label.
+ */
+import { site } from '../site.config';
+const { affiliate } = site;
+const show = affiliate?.enabled && affiliate.partners?.length > 0;
+---
+
+{
+  show && (
+    <section class="container container--narrow section affiliate" aria-labelledby="affiliate-title">
+      <h2 id="affiliate-title">{affiliate.heading}</h2>
+      <p class="small muted affiliate__disclosure">Sponsored · {affiliate.disclosure}</p>
+      <ul class="affiliate__list">
+        {affiliate.partners.map((p) => (
+          <li class="card">
+            <p class="affiliate__name">
+              {p.name} <span class="affiliate__tag">Sponsored</span>
+            </p>
+            <p class="muted small">{p.blurb}</p>
+            {p.url === '#' ? (
+              <span class="btn btn--secondary btn--sm affiliate__cta" aria-disabled="true">
+                Partner link coming soon
+              </span>
+            ) : (
+              <a class="btn btn--secondary btn--sm affiliate__cta" href={p.url} rel="sponsored noopener" target="_blank">
+                Learn more
+              </a>
+            )}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+<style>
+  .affiliate__disclosure {
+    margin-top: calc(-1 * var(--space-2));
+  }
+  .affiliate__list {
+    list-style: none;
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    display: grid;
+    gap: var(--space-3);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  }
+  .affiliate__name {
+    margin: 0 0 var(--space-1);
+    font-weight: 700;
+  }
+  .affiliate__tag {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--fg-muted);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.1em 0.6em;
+    vertical-align: middle;
+    margin-left: var(--space-1);
+  }
+  .affiliate__cta {
+    margin-top: var(--space-3);
+  }
+  [aria-disabled='true'].affiliate__cta {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+</style>

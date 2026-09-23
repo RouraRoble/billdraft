@@ -1,0 +1,56 @@
+---
+import { faqLd, ldJson } from '../lib/seo';
+interface Props {
+  items: { q: string; a: string }[];
+  title?: string;
+  /** Emit FAQPage JSON-LD (only once per page). */
+  schema?: boolean;
+}
+const { items, title = 'Frequently asked questions', schema = true } = Astro.props;
+---
+
+<section class="faq" aria-labelledby="faq-title">
+  <h2 id="faq-title">{title}</h2>
+  {
+    items.map((f) => (
+      <details>
+        <summary>{f.q}</summary>
+        <div class="faq__answer" set:html={f.a} />
+      </details>
+    ))
+  }
+</section>
+{schema && <script type="application/ld+json" set:html={ldJson(faqLd(items.map((f) => ({ q: f.q, a: f.a.replace(/<[^>]+>/g, '') }))))} />}
+
+<style>
+  .faq details {
+    border-top: 1px solid var(--border);
+    padding: var(--space-3) 0;
+  }
+  .faq details:last-of-type {
+    border-bottom: 1px solid var(--border);
+  }
+  .faq summary {
+    cursor: pointer;
+    font-weight: 600;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq summary::after {
+    content: '+';
+    color: var(--fg-muted);
+    font-weight: 400;
+  }
+  .faq details[open] summary::after {
+    content: '−';
+  }
+  .faq__answer {
+    padding-top: var(--space-2);
+    color: var(--fg-muted);
+  }
+</style>

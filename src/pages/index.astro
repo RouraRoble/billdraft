@@ -1,0 +1,78 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import Share from '../components/Share.astro';
+import Editor from '../components/Editor.tsx';
+import Affiliate from '../components/Affiliate.astro';
+import MoreTools from '../components/MoreTools.astro';
+import { site } from '../site.config';
+import { webAppLd } from '../lib/seo';
+import { absoluteUrl } from '../lib/url';
+
+const faqs = [
+  { q: `Is ${site.name} really free, with no watermark?`, a: 'Yes. There is no sign-up, no paywall and no watermark on the PDF. Everything runs in your browser.' },
+  {
+    q: 'Is my invoice data uploaded anywhere?',
+    a: 'No. Totals are calculated on your device and nothing is sent to a server. Your business details, client list and saved documents live only in this browser’s local storage.',
+  },
+  {
+    q: 'How does the share link work?',
+    a: 'The "Share this document" link encodes the whole invoice (client, items, totals, template) into the URL itself — there is no database. Opening the link shows a read-only view with a print button. Because the data lives in the link, only send it to people who should see it.',
+  },
+  {
+    q: 'Can I use my own currency and number format?',
+    a: 'Yes. Pick any of the built-in ISO 4217 currencies and a regional number format (e.g. 1,234.56 vs 1.234,56); amounts are rounded to that currency’s minor unit as described on the About page.',
+  },
+  {
+    q: 'How do I get a PDF?',
+    a: 'Click "Download PDF" — it opens your browser’s print dialog with a print-only layout sized to A4 or Letter; choose "Save as PDF" as the destination.',
+  },
+];
+---
+
+<Base title={`Free Invoice Generator — No Sign-Up, No Watermark | ${site.name}`} description={site.description} jsonLd={webAppLd({ features: ['Invoices, quotes, receipts and credit notes', 'Multi-currency with per-line tax and discounts', 'Print to PDF', 'Shareable read-only link', 'Local-only storage'] })}>
+  <section class="hero container">
+    <p class="eyebrow">Free online tool · No sign-up</p>
+    <h1>{site.tagline}</h1>
+    <p class="muted small">Last updated: {site.updated}</p>
+    <p class="lead">
+      Fill in the details, see totals update live, then download a clean PDF or send a read-only share link. Nothing you type leaves
+      this browser tab.
+    </p>
+  </section>
+
+  <section class="container" aria-label="Invoice, quote and receipt generator">
+    <Editor client:load initialType="invoice" />
+  </section>
+
+  <section class="container container--narrow section no-print">
+    <h2>How it works</h2>
+    <ol>
+      <li>Add your business details, your client, and line items with quantity, price, tax and discount.</li>
+      <li>Totals, tax breakdown and the balance due update instantly using the rounding rule explained on the <a href={absoluteUrl('/about/')}>About page</a>.</li>
+      <li>Download a PDF, or copy a share link so your client can view the same document read-only.</li>
+    </ol>
+    <Share url={absoluteUrl('/')} text={`${site.name}: ${site.tagline}`} />
+  </section>
+
+  <Affiliate />
+
+  <section class="container container--narrow section no-print">
+    <Faq items={faqs} />
+  </section>
+
+  <section class="container no-print">
+    <MoreTools />
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-block: var(--space-10) var(--space-6);
+  }
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--fg-muted);
+    max-width: 60ch;
+  }
+</style>

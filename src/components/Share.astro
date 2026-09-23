@@ -1,0 +1,88 @@
+---
+/**
+ * Share bar: native share (mobile), copy link, X, WhatsApp, Reddit, email.
+ * Pass `url` (absolute) and `text`. Works without JS for the link buttons.
+ */
+interface Props {
+  url: string;
+  text: string;
+  label?: string;
+}
+const { url, text, label = 'Share' } = Astro.props;
+const enc = encodeURIComponent;
+---
+
+<div class="share" data-share data-url={url} data-text={text}>
+  <span class="share__label">{label}</span>
+  <button type="button" class="share__btn" data-share-native hidden>Share…</button>
+  <button type="button" class="share__btn" data-share-copy>Copy link</button>
+  <a class="share__btn" href={`https://twitter.com/intent/tweet?text=${enc(text)}&url=${enc(url)}`} target="_blank" rel="noopener noreferrer">X</a>
+  <a class="share__btn" href={`https://wa.me/?text=${enc(text + ' ' + url)}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+  <a class="share__btn" href={`https://www.reddit.com/submit?url=${enc(url)}&title=${enc(text)}`} target="_blank" rel="noopener noreferrer">Reddit</a>
+  <a class="share__btn" href={`mailto:?subject=${enc(text)}&body=${enc(url)}`}>Email</a>
+  <span class="share__status" role="status" aria-live="polite"></span>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-share]').forEach((root) => {
+    const url = root.dataset.url || location.href;
+    const text = root.dataset.text || document.title;
+    const status = root.querySelector<HTMLElement>('.share__status');
+    const native = root.querySelector<HTMLButtonElement>('[data-share-native]');
+    const copy = root.querySelector<HTMLButtonElement>('[data-share-copy]');
+    if (native && typeof navigator.share === 'function') {
+      native.hidden = false;
+      native.addEventListener('click', async () => {
+        try {
+          await navigator.share({ title: text, text, url });
+        } catch {
+          /* user cancelled */
+        }
+      });
+    }
+    copy?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(url);
+        if (status) status.textContent = 'Link copied';
+      } catch {
+        if (status) status.textContent = url;
+      }
+      setTimeout(() => {
+        if (status) status.textContent = '';
+      }, 2500);
+    });
+  });
+</script>
+
+<style>
+  .share {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+  }
+  .share__label {
+    color: var(--fg-muted);
+    margin-right: var(--space-1);
+  }
+  .share__btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0 var(--space-3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-elevated);
+    color: var(--fg);
+    text-decoration: none;
+    font: inherit;
+    cursor: pointer;
+  }
+  .share__btn:hover {
+    border-color: var(--border-strong);
+  }
+  .share__status {
+    color: var(--accent);
+  }
+</style>
